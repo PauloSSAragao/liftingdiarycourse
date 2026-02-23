@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## IMPORTANT: Documentation First
+
+Before generating any code, Claude Code MUST always consult the relevant documentation files in the `/docs` folder. These files define the project's conventions, patterns, and requirements that all generated code must follow. Do not write code that contradicts or ignores guidance found in `/docs`:
+- /docs/ui.md - UI component guidelines and patterns
+
 ## Commands
 
 - `npm run dev` - Start development server (http://localhost:3000)
