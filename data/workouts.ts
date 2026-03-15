@@ -9,6 +9,31 @@ export async function createWorkout(userId: string, name: string | null, date: D
   return db.insert(workouts).values({ userId, name, date: dateStr });
 }
 
+export async function getWorkoutById(workoutId: string) {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
+
+  const result = await db
+    .select()
+    .from(workouts)
+    .where(and(eq(workouts.id, workoutId), eq(workouts.userId, userId)))
+    .limit(1);
+
+  return result[0] ?? null;
+}
+
+export async function updateWorkout(
+  userId: string,
+  workoutId: string,
+  name: string | null,
+  date: string
+) {
+  return db
+    .update(workouts)
+    .set({ name, date })
+    .where(and(eq(workouts.id, workoutId), eq(workouts.userId, userId)));
+}
+
 export async function getWorkoutsForDate(date: string) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");

@@ -9,6 +9,8 @@ Before generating any code, Claude Code MUST always consult the relevant documen
 - /docs/data-fetching.md - Data fetching rules, database query patterns, and user data isolation requirements
 - /docs/data-mutations.md - Data mutation rules, server action conventions, Zod validation, and user data isolation requirements
 - /docs/auth.md - Authentication standards and Clerk usage patterns
+- /docs/server-components.md - Server component standards, including async params/searchParams (Next.js 15)
+- /docs/routing.md - App Router route structure, route protection via middleware, and routing conventions
 
 ## Commands
 
