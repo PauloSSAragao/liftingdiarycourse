@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +21,7 @@ type WorkoutRow = {
 
 type GroupedExercise = {
   workoutExerciseId: string;
+  workoutId: string;
   exerciseName: string;
   sets: { setNumber: number; reps: number | null; weight: string | null }[];
 };
@@ -31,6 +33,7 @@ function groupByExercise(rows: WorkoutRow[]): GroupedExercise[] {
     if (!map.has(row.workoutExerciseId)) {
       map.set(row.workoutExerciseId, {
         workoutExerciseId: row.workoutExerciseId,
+        workoutId: row.workoutId,
         exerciseName: row.exerciseName!,
         sets: [],
       });
@@ -104,30 +107,35 @@ export default function DashboardClient({
           ) : (
             <div className="space-y-3">
               {exercises.map((exercise) => (
-                <Card key={exercise.workoutExerciseId}>
-                  <CardContent className="py-4">
-                    <div className="flex items-center justify-between">
-                      <p className="font-medium text-lg">
-                        {exercise.exerciseName}
-                      </p>
-                      <Badge variant="secondary">
-                        {exercise.sets.length}{" "}
-                        {exercise.sets.length === 1 ? "set" : "sets"}
-                      </Badge>
-                    </div>
-                    <div className="mt-2 space-y-1">
-                      {exercise.sets.map((set) => (
-                        <p
-                          key={set.setNumber}
-                          className="text-sm text-muted-foreground"
-                        >
-                          Set {set.setNumber}: {set.reps ?? "—"} reps
-                          {set.weight ? ` × ${set.weight} kg` : ""}
+                <Link
+                  key={exercise.workoutExerciseId}
+                  href={`/dashboard/workout/${exercise.workoutId}`}
+                >
+                  <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+                    <CardContent className="py-4">
+                      <div className="flex items-center justify-between">
+                        <p className="font-medium text-lg">
+                          {exercise.exerciseName}
                         </p>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+                        <Badge variant="secondary">
+                          {exercise.sets.length}{" "}
+                          {exercise.sets.length === 1 ? "set" : "sets"}
+                        </Badge>
+                      </div>
+                      <div className="mt-2 space-y-1">
+                        {exercise.sets.map((set) => (
+                          <p
+                            key={set.setNumber}
+                            className="text-sm text-muted-foreground"
+                          >
+                            Set {set.setNumber}: {set.reps ?? "—"} reps
+                            {set.weight ? ` × ${set.weight} kg` : ""}
+                          </p>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           )}
