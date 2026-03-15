@@ -7,6 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Before generating any code, Claude Code MUST always consult the relevant documentation files in the `/docs` folder. These files define the project's conventions, patterns, and requirements that all generated code must follow. Do not write code that contradicts or ignores guidance found in `/docs`:
 - /docs/ui.md - UI component guidelines and patterns
 - /docs/data-fetching.md - Data fetching rules, database query patterns, and user data isolation requirements
+- /docs/data-mutations.md - Data mutation rules, server action conventions, Zod validation, and user data isolation requirements
+- /docs/auth.md - Authentication standards and Clerk usage patterns
+- /docs/server-components.md - Server component standards, including async params/searchParams (Next.js 15)
+- /docs/routing.md - App Router route structure, route protection via middleware, and routing conventions
 
 ## Commands
 

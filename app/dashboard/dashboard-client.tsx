@@ -10,10 +10,10 @@ import { Badge } from "@/components/ui/badge";
 type WorkoutRow = {
   workoutId: string;
   workoutName: string | null;
-  exerciseName: string;
-  workoutExerciseId: string;
-  order: number;
-  setNumber: number;
+  exerciseName: string | null;
+  workoutExerciseId: string | null;
+  order: number | null;
+  setNumber: number | null;
   reps: number | null;
   weight: string | null;
 };
@@ -27,18 +27,21 @@ type GroupedExercise = {
 function groupByExercise(rows: WorkoutRow[]): GroupedExercise[] {
   const map = new Map<string, GroupedExercise>();
   for (const row of rows) {
+    if (!row.workoutExerciseId) continue;
     if (!map.has(row.workoutExerciseId)) {
       map.set(row.workoutExerciseId, {
         workoutExerciseId: row.workoutExerciseId,
-        exerciseName: row.exerciseName,
+        exerciseName: row.exerciseName!,
         sets: [],
       });
     }
-    map.get(row.workoutExerciseId)!.sets.push({
-      setNumber: row.setNumber,
-      reps: row.reps,
-      weight: row.weight,
-    });
+    if (row.setNumber !== null) {
+      map.get(row.workoutExerciseId)!.sets.push({
+        setNumber: row.setNumber,
+        reps: row.reps,
+        weight: row.weight,
+      });
+    }
   }
   return Array.from(map.values());
 }
@@ -86,10 +89,16 @@ export default function DashboardClient({
             Workouts for <span className="text-primary">{formattedDate}</span>
           </h2>
 
-          {exercises.length === 0 ? (
+          {workoutRows.length === 0 ? (
             <Card>
               <CardContent className="py-10 text-center text-muted-foreground">
                 No workouts logged for this date.
+              </CardContent>
+            </Card>
+          ) : exercises.length === 0 ? (
+            <Card>
+              <CardContent className="py-10 text-center text-muted-foreground">
+                Workout logged — no exercises added yet.
               </CardContent>
             </Card>
           ) : (
