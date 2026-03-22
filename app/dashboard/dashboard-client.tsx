@@ -114,11 +114,13 @@ export default function DashboardClient({
               </CardContent>
             </Card>
           ) : exercises.length === 0 ? (
-            <Card>
-              <CardContent className="py-10 text-center text-muted-foreground">
-                Workout logged — no exercises added yet.
-              </CardContent>
-            </Card>
+            <Link href={`/dashboard/workout/${workoutRows[0].workoutId}`}>
+              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+                <CardContent className="py-10 text-center text-muted-foreground">
+                  Workout logged — no exercises added yet. Click to add exercises.
+                </CardContent>
+              </Card>
+            </Link>
           ) : (
             <div className="space-y-3">
               {exercises.map((exercise) => (
